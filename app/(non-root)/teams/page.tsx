@@ -64,13 +64,13 @@ const page = () => {
   return (
     <main className="min-h-screen px-10 flex items-center flex-col">
       <h2 className="font-extrabold text-3xl mx-auto my-3 mb-5 text-white drop-shadow-[0_0_10px_rgba(0,191,255,0.8)]">Heads</h2>
-      <div className="flex flex-wrap justify-center gap-5 max-md:gap-10">
+      <div className="flex flex-wrap justify-center gap-5  md:gap-10">
         {nsscTeamData.heads.map((head, index) => (
           <TeamCard key={index} name={head.name} role={head.role} fb={head.fb} linkedin={head.linkedin} mail={head.mail} />
         ))}
       </div>
       <h2 className="font-extrabold text-3xl mx-auto my-10 text-white drop-shadow-[0_0_10px_rgba(0,191,255,0.8)]">SubHeads</h2>
-      <div className="flex flex-wrap justify-center gap-5 max-md:gap-10">
+      <div className="flex flex-wrap justify-center gap-5 md:gap-10">
         {nsscTeamData.subheads.map((subhead, index) => (
           <TeamCard key={index} name={subhead.name} role={subhead.team} fb={subhead.fb} linkedin={subhead.linkedin} mail={subhead.mail} />
         ))}

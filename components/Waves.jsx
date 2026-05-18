@@ -269,8 +269,8 @@ const Waves = ({
       updateMouse(touch.clientX, touch.clientY);
     }
     function updateMouse(x, y) {
-      const mouse = mouseRef.current,
-        b = boundingRef.current;
+      const mouse = mouseRef.current;
+      const b = containerRef.current.getBoundingClientRect();
       mouse.x = x - b.left;
       mouse.y = y - b.top;
       if (!mouse.set) {
