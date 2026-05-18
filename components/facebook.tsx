@@ -1,5 +1,5 @@
 const FacebookIcon = ({
-    size = undefined,
+    size = 24,
     color = '#000000',
     strokeWidth = 2,
     background = 'transparent',

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const LinkedinIcon = ({
-    size = undefined,
+    size = 24,
     color = '#000000',
     strokeWidth = 2,
     background = 'transparent',
