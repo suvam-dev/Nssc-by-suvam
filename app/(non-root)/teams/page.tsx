@@ -1,7 +1,5 @@
-import { Mail } from "lucide-react"
-import FacebookIcon from "@/components/facebook"
-import LinkedinIcon from "@/components/linkedin"
-
+"use client"
+import TeamCard from "@/components/ui/TeamCard";
 const nsscTeamData = {
   heads: [
     { name: "Anaya Dixit", role: "Guest Lectures and Workshops Head", fb: "", linkedin: "", mail: "" },
@@ -65,17 +63,17 @@ const nsscTeamData = {
 const page = () => {
   return (
     <main className="min-h-screen px-10 flex items-center flex-col">
-      <h1 className="font-extrabold text-3xl mx-auto my-3 mb-5 text-shadow-sm text-shadow-[#00bfff] backdrop-blur-sm">Teams Page</h1>
-      <div className="w-full max-w-80 max-h-85 rounded-3xl flex flex-col items-center bg-black border-light-50 border-1 py-4 shadow-[0_0_30px_5px_rgba(0,191,255,0.3)] backdrop-blur-sm">
-        <div className="w-40 h-40 mx-auto rounded-full bg-red-300 mt-5 shadow-[0_0_30px_12px_rgba(0,191,255,0.3)] backdrop-blur-sm"></div>
-        <h1 className="text-2xl text-[#00bfff] font-bold mt-3">Suvam Ghosh</h1>
-        <h4 className="text-gray-300 mb-4">Tech Subhead</h4>
-        <div className="w-full h-[.1px] bg-[#00bfff] mb-4"></div>
-        <div className="flex justify-center items-center gap-5">
-          <li className="list-none text-white hover:scale-110 hover:-translate-y-2 hover:rotate-z-20 hover:text-[#00bfff] transition-all duration-500 ease-in-out cursor-pointer mx-2"><Mail size={24} /></li>
-          <li className="list-none text-white hover:scale-110 hover:-translate-y-2 hover:rotate-z-20 hover:text-[#00bfff] transition-all duration-500 ease-in-out cursor-pointer "><LinkedinIcon size={24} /></li>
-          <li className="list-none text-white hover:scale-110 hover:-translate-y-2 hover:rotate-z-20 hover:text-[#00bfff] transition-all duration-500 ease-in-out cursor-pointer "><FacebookIcon size={24} /></li>
-        </div>
+      <h2 className="font-extrabold text-3xl mx-auto my-3 mb-5 text-white drop-shadow-[0_0_10px_rgba(0,191,255,0.8)]">Heads</h2>
+      <div className="flex flex-wrap justify-center gap-5 max-md:gap-10">
+        {nsscTeamData.heads.map((head, index) => (
+          <TeamCard key={index} name={head.name} role={head.role} fb={head.fb} linkedin={head.linkedin} mail={head.mail} />
+        ))}
+      </div>
+      <h2 className="font-extrabold text-3xl mx-auto my-10 text-white drop-shadow-[0_0_10px_rgba(0,191,255,0.8)]">SubHeads</h2>
+      <div className="flex flex-wrap justify-center gap-5 max-md:gap-10">
+        {nsscTeamData.subheads.map((subhead, index) => (
+          <TeamCard key={index} name={subhead.name} role={subhead.team} fb={subhead.fb} linkedin={subhead.linkedin} mail={subhead.mail} />
+        ))}
       </div>
     </main>
   )
