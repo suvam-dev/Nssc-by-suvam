@@ -9,7 +9,7 @@ type FormMode = "login" | "register";
 export default function RegisterPage() {
     const [mode, setMode] = useState<FormMode>("register");
     const [currentStep, setCurrentStep] = useState<number>(1);
-    
+
     const [loginData, setLoginData] = useState({
         email: "",
         password: ""
@@ -61,10 +61,9 @@ export default function RegisterPage() {
     };
 
     return (
-        <main className="w-full min-h-screen pt-32 pb-20 flex flex-col items-center justify-center bg-transparent text-white px-4 md:px-8 relative overflow-hidden">
-            <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[130px] pointer-events-none -z-10" />
+        <main className="w-full flex flex-col items-center pt-10 bg-transparent text-white px-4 md:px-8 relative overflow-hidden">
+            <div className="absolute left-1/2 translate-x-1/2 w-[600px] h-[500px] bg-cyan-500/10 rounded-full blur-[130px] pointer-events-none -z-10" />
             <div className="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] bg-purple-500/5 rounded-full blur-[110px] pointer-events-none -z-10" />
-
             <div className="w-full max-w-xl bg-black/45 border border-gray-700/50 rounded-[40px] p-8 md:p-12 backdrop-blur-md shadow-[0_0_35px_rgba(0,191,255,0.15)] relative z-10">
                 <div className="flex justify-center bg-black/60 border border-gray-800/80 p-1 rounded-full w-fit mx-auto mb-10">
                     <button
@@ -72,21 +71,19 @@ export default function RegisterPage() {
                             setMode("login");
                             setCurrentStep(1);
                         }}
-                        className={`px-8 py-3 rounded-full font-extrabold text-sm tracking-widest uppercase transition-all duration-300 cursor-pointer ${
-                            mode === "login"
-                                ? "bg-white text-black shadow-lg scale-102"
-                                : "text-gray-400 hover:text-white bg-transparent"
-                        }`}
+                        className={`px-8 py-3 rounded-full font-extrabold text-sm tracking-widest uppercase transition-all duration-300 cursor-pointer ${mode === "login"
+                            ? "bg-white text-black shadow-lg scale-102"
+                            : "text-gray-400 hover:text-white bg-transparent"
+                            }`}
                     >
                         Login
                     </button>
                     <button
                         onClick={() => setMode("register")}
-                        className={`px-8 py-3 rounded-full font-extrabold text-sm tracking-widest uppercase transition-all duration-300 cursor-pointer ${
-                            mode === "register"
-                                ? "bg-white text-black shadow-lg scale-102"
-                                : "text-gray-400 hover:text-white bg-transparent"
-                        }`}
+                        className={`px-8 py-3 rounded-full font-extrabold text-sm tracking-widest uppercase transition-all duration-300 cursor-pointer ${mode === "register"
+                            ? "bg-white text-black shadow-lg scale-102"
+                            : "text-gray-400 hover:text-white bg-transparent"
+                            }`}
                     >
                         Register
                     </button>
@@ -172,13 +169,12 @@ export default function RegisterPage() {
                                     return (
                                         <div
                                             key={step}
-                                            className={`w-8 h-8 rounded-full flex items-center justify-center font-extrabold text-sm transition-all duration-500 z-10 cursor-pointer ${
-                                                isCompleted
-                                                    ? "bg-[#00bfff] text-black shadow-[0_0_15px_rgba(0,191,255,0.5)]"
-                                                    : isActive
+                                            className={`w-8 h-8 rounded-full flex items-center justify-center font-extrabold text-sm transition-all duration-500 z-10 cursor-pointer ${isCompleted
+                                                ? "bg-[#00bfff] text-black shadow-[0_0_15px_rgba(0,191,255,0.5)]"
+                                                : isActive
                                                     ? "bg-[#eab308] text-black shadow-[0_0_15px_rgba(234,179,8,0.5)] scale-110"
                                                     : "bg-black/80 border border-gray-700 text-gray-400"
-                                            }`}
+                                                }`}
                                             onClick={() => {
                                                 if (step < currentStep) setCurrentStep(step);
                                             }}

@@ -29,12 +29,12 @@ export default function ForgotPasswordPage() {
     };
 
     return (
-        <main className="w-full min-h-screen pt-32 pb-20 flex flex-col items-center justify-center bg-transparent text-white px-4 md:px-8 relative overflow-hidden">
+        <main className="w-full  pt-32 pb-20 flex flex-col items-center justify-center bg-transparent text-white px-4 md:px-8 relative overflow-hidden">
             {/* Background Radial Glow */}
             <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[130px] pointer-events-none -z-10" />
-            
+
             <div className="w-full max-w-xl bg-black/45 border border-gray-700/50 rounded-[40px] p-8 md:p-12 backdrop-blur-md shadow-[0_0_35px_rgba(0,191,255,0.15)] relative z-10">
-                
+
                 {/* Heading White Pill */}
                 <div className="flex justify-center bg-white px-8 py-3 rounded-full w-fit mx-auto mb-10 shadow-lg">
                     <span className="text-black font-extrabold text-sm tracking-widest uppercase">
@@ -73,13 +73,12 @@ export default function ForgotPasswordPage() {
                                 return (
                                     <div
                                         key={step}
-                                        className={`w-8 h-8 rounded-full flex items-center justify-center font-extrabold text-sm transition-all duration-500 z-10 cursor-pointer ${
-                                            isCompleted
-                                                ? "bg-[#00bfff] text-black shadow-[0_0_15px_rgba(0,191,255,0.5)]"
-                                                : isActive
+                                        className={`w-8 h-8 rounded-full flex items-center justify-center font-extrabold text-sm transition-all duration-500 z-10 cursor-pointer ${isCompleted
+                                            ? "bg-[#00bfff] text-black shadow-[0_0_15px_rgba(0,191,255,0.5)]"
+                                            : isActive
                                                 ? "bg-[#eab308] text-black shadow-[0_0_15px_rgba(234,179,8,0.5)] scale-110"
                                                 : "bg-black/80 border border-gray-700 text-gray-400"
-                                        }`}
+                                            }`}
                                         onClick={() => {
                                             if (step < currentStep) setCurrentStep(step);
                                         }}

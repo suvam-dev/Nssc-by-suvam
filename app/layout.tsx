@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Starfield } from "@/components/ui/Starfield";
-import Navbar from "@/components/navbar";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -41,7 +40,6 @@ export default function RootLayout({
           />
         </div>
         {/* Navbar lives here so it is NEVER re-mounted on route changes */}
-        <Navbar />
         {children}
       </body>
     </html>
