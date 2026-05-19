@@ -222,17 +222,25 @@ const Waves = ({
       ctx.beginPath();
       ctx.strokeStyle = configRef.current.lineColor;
       ctx.lineWidth = 2;
-      linesRef.current.forEach(points => {
-        let p1 = moved(points[0], false);
-        ctx.moveTo(p1.x, p1.y);
-        points.forEach((p, idx) => {
-          const isLast = idx === points.length - 1;
-          p1 = moved(p, !isLast);
-          const p2 = moved(points[idx + 1] || points[points.length - 1], !isLast);
-          ctx.lineTo(p1.x, p1.y);
-          if (isLast) ctx.moveTo(p2.x, p2.y);
-        });
-      });
+      
+      const lines = linesRef.current;
+      for (let i = 0; i < lines.length; i++) {
+        const points = lines[i];
+        if (points.length === 0) continue;
+        
+        const first = points[0];
+        const firstX = first.x + first.wave.x;
+        const firstY = first.y + first.wave.y;
+        ctx.moveTo(firstX, firstY);
+        
+        for (let j = 0; j < points.length; j++) {
+          const p = points[j];
+          const isLast = j === points.length - 1;
+          const px = p.x + p.wave.x + (isLast ? 0 : p.cursor.x);
+          const py = p.y + p.wave.y + (isLast ? 0 : p.cursor.y);
+          ctx.lineTo(px, py);
+        }
+      }
       ctx.stroke();
     }
 
@@ -269,6 +277,7 @@ const Waves = ({
       updateMouse(touch.clientX, touch.clientY);
     }
     function updateMouse(x, y) {
+      if (!containerRef.current) return;
       const mouse = mouseRef.current;
       const b = containerRef.current.getBoundingClientRect();
       mouse.x = x - b.left;

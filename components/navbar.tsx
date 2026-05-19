@@ -1,8 +1,9 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
-import { Menu, X, } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -58,7 +59,7 @@ const Navbar = () => {
                 transition={{ duration: 0.3 }}
                 whileHover={{ scale: 1.05 }}
               >
-                <a
+                <Link
                   href={item.href}
                   className={`text-sm hover:text-[#00bfff] hover:underline hover:decoration-[#00bfff] hover:underline-offset-8 transition-all duration-300 font-bold whitespace-nowrap ${
                     isActive
@@ -67,7 +68,7 @@ const Navbar = () => {
                   }`}
                 >
                   {item.name}
-                </a>
+                </Link>
               </motion.div>
             );
           })}
@@ -79,12 +80,12 @@ const Navbar = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.3, delay: 0.2 }}
         >
-          <a
+          <Link
             href="/register"
             className="inline-flex items-center justify-center px-6 py-2 text-sm font-bold text-white hover:border-light-100 hover:text-black border-cyan-500 border-2 bg-black rounded-full hover:bg-cyan-500 animate-ease-linear  backdrop-blur-sm transition-all duration-300 whitespace-nowrap"
           >
             REGISTER
-          </a>
+          </Link>
         </motion.div>
 
         <motion.button
@@ -126,7 +127,7 @@ const Navbar = () => {
                     transition={{ delay: i * 0.05 + 0.1 }}
                     exit={{ opacity: 0, x: 20 }}
                   >
-                    <a
+                    <Link
                       href={item.href}
                       className={`text-base font-bold hover:text-[#00bfff] hover:underline hover:decoration-[#00bfff] hover:underline-offset-8 transition-all duration-300 ${
                         isActive
@@ -136,7 +137,7 @@ const Navbar = () => {
                       onClick={toggleMenu}
                     >
                       {item.name}
-                    </a>
+                    </Link>
                   </motion.div>
                 );
               })}
@@ -148,13 +149,13 @@ const Navbar = () => {
                 exit={{ opacity: 0, y: 20 }}
                 className="pt-6"
               >
-                <a
+                <Link
                   href="/register"
                   className="inline-flex items-center justify-center w-full px-5 py-3 text-base font-bold text-white bg-black rounded-full hover:bg-gray-800 transition-colors"
                   onClick={toggleMenu}
                 >
                   REGISTER
-                </a>
+                </Link>
               </motion.div>
             </div>
           </motion.div>

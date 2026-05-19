@@ -1,4 +1,5 @@
 "use client"
+import { useState } from "react"
 import { Mail } from "lucide-react"
 import FacebookIcon from "@/components/facebook"
 import LinkedinIcon from "@/components/linkedin"
@@ -13,24 +14,31 @@ interface TeamCardProps {
 }
 
 const TeamCard = ({ name, role, fb, linkedin, mail }: TeamCardProps) => {
-    return (
-        <div className="relative overflow-hidden w-full max-w-80 max-h-85 rounded-4xl flex flex-col mb-5  items-center bg-black border-white border py-4 shadow-[0_0_9px_4px_rgba(0,191,255,0.8)] backdrop-blur-lg group">
+    const [isHovered, setIsHovered] = useState(false);
 
-            {/* Waves Background - only visible on hover */}
-            <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-80 transition-opacity duration-500">
-                <Waves
-                    lineColor="rgba(255, 255, 255, 0.15)"
-                    backgroundColor="transparent"
-                    waveSpeedX={0.02}
-                    waveSpeedY={0.01}
-                    waveAmpX={15}
-                    waveAmpY={8}
-                    friction={0.9}
-                    tension={0.01}
-                    maxCursorMove={60}
-                    xGap={8}
-                    yGap={18}
-                />
+    return (
+        <div 
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            className="relative overflow-hidden w-full max-w-80 max-h-85 rounded-[32px] flex flex-col mb-5 items-center bg-black border-white border py-4 shadow-[0_0_9px_4px_rgba(0,191,255,0.8)] group"
+        >
+            {/* Waves Background - only visible and animated on hover */}
+            <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-80 transition-opacity duration-500 rounded-[30px] overflow-hidden">
+                {isHovered && (
+                    <Waves
+                        lineColor="rgba(255, 255, 255, 0.15)"
+                        backgroundColor="transparent"
+                        waveSpeedX={0.02}
+                        waveSpeedY={0.01}
+                        waveAmpX={15}
+                        waveAmpY={8}
+                        friction={0.9}
+                        tension={0.01}
+                        maxCursorMove={60}
+                        xGap={12}
+                        yGap={24}
+                    />
+                )}
             </div>
 
             {/* Main Content Layer */}

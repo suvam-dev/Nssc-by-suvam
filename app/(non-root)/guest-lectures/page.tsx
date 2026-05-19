@@ -50,7 +50,7 @@ const lecturesData: Lecture[] = [
 
 export default function GuestLecturesPage() {
     return (
-        <main className="w-full min-h-screen pt-32 pb-20 flex flex-col items-center bg-transparent text-white px-6 md:px-12 relative overflow-hidden">
+        <main className="w-full min-h-screen pt-10 flex flex-col items-center bg-transparent text-white px-6 md:px-12 relative overflow-hidden">
             <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[130px] pointer-events-none -z-10" />
             <div className="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] bg-purple-500/5 rounded-full blur-[110px] pointer-events-none -z-10" />
 
