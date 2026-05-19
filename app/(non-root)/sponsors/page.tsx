@@ -90,16 +90,14 @@ const sponsorsData: SponsorData = {
 
 export default function SponsorsPage() {
     const [selectedYear, setSelectedYear] = useState<string>("2026");
-    const years = ["2025", "2026", "2024"]; // Keep 2026 in the middle
+    const years = ["2025", "2026", "2024"];
     const currentSponsors = sponsorsData[selectedYear] || {};
 
     return (
         <main className="w-full min-h-screen pt-32 pb-20 flex flex-col items-center bg-transparent text-white px-4 md:px-8 relative overflow-hidden">
-            {/* Dynamic Background Accents */}
             <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none -z-10" />
             <div className="absolute bottom-1/4 left-1/3 w-[300px] h-[300px] bg-purple-500/5 rounded-full blur-[100px] pointer-events-none -z-10" />
 
-            {/* Heading */}
             <div className="text-center mb-16 relative">
                 <motion.h1
                     initial={{ opacity: 0, y: -20 }}
@@ -111,7 +109,6 @@ export default function SponsorsPage() {
                 </motion.h1>
             </div>
 
-            {/* Year Selector Tabs */}
             <div className="flex justify-center gap-4 mb-16 relative z-10">
                 {years.map((year) => {
                     const isActive = selectedYear === year;
@@ -130,7 +127,6 @@ export default function SponsorsPage() {
                 })}
             </div>
 
-            {/* Sponsor Sections */}
             <div className="w-full max-w-6xl z-10">
                 <AnimatePresence mode="wait">
                     <motion.div
@@ -148,14 +144,12 @@ export default function SponsorsPage() {
                         ) : (
                             Object.entries(currentSponsors).map(([category, sponsors]) => (
                                 <div key={category} className="flex flex-col items-center justify-center">
-                                    {/* Category Title */}
                                     <h2 className="text-2xl md:text-3xl  tracking-wider text-center uppercase mb-10 text-white font-extrabold flex items-center gap-3">
                                         <span className="h-[2px] w-12 bg-gradient-to-r from-transparent to-cyan-400 hidden sm:block"></span>
                                         {category}
                                         <span className="h-[2px] w-12 bg-gradient-to-l from-transparent to-cyan-400 hidden sm:block"></span>
                                     </h2>
 
-                                    {/* Sponsors Grid */}
                                     <div className="flex flex-row flex-wrap gap-8 w-full justify-center items-center">
                                         {sponsors.map((sponsor, index) => (
                                             <SponsorCard key={index} sponsor={sponsor} />
@@ -183,19 +177,15 @@ function SponsorCard({ sponsor }: { sponsor: Sponsor }) {
             transition={{ duration: 0.3 }}
             className="group w-full max-w-sm aspect-video sm:aspect-auto sm:h-52 bg-black/40 border border-gray-700/40 rounded-3xl p-6 flex flex-col justify-center items-center relative overflow-hidden backdrop-blur-md cursor-pointer transition-all duration-300 hover:border-[#00bfff]/60 hover:shadow-[0_0_30px_3px_rgba(0,191,255,0.25)]"
         >
-            {/* Decorative Glow Grid Line */}
             <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#00bfff]/30 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
             <div className="absolute bottom-0 right-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#00bfff]/30 to-transparent transform translate-x-full group-hover:-translate-x-full transition-transform duration-1000" />
 
-            {/* Card Content */}
             <div className="w-full flex flex-col items-center justify-center space-y-4">
                 {imageError ? (
-                    /* Premium Fallback Design */
                     <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-cyan-950/40 to-purple-950/40 border border-cyan-500/20 flex flex-col items-center justify-center group-hover:border-cyan-500/40 shadow-inner transition-colors duration-300">
                         <Globe className="w-8 h-8 text-cyan-400 animate-pulse" />
                     </div>
                 ) : (
-                    /* Image container with custom load protection */
                     <div className="h-24 w-full flex items-center justify-center px-4 overflow-hidden relative">
                         <img
                             src={sponsor.logo}
@@ -206,7 +196,6 @@ function SponsorCard({ sponsor }: { sponsor: Sponsor }) {
                     </div>
                 )}
 
-                {/* Sponsor Text / Info */}
                 <div className="text-center">
                     <h3 className="font-bold text-lg text-white group-hover:text-[#00bfff] transition-colors duration-300 line-clamp-1">
                         {sponsor.name}

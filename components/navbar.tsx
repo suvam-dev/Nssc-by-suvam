@@ -1,9 +1,12 @@
 "use client";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import { Menu, X, } from "lucide-react";
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -44,27 +47,32 @@ const Navbar = () => {
           </motion.div>
         </div>
 
-        {/* Desktop Navigation */}
         <nav className="hidden xl:flex items-center space-x-6">
-          {navLinks.map((item) => (
-            <motion.div
-              key={item.name}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              whileHover={{ scale: 1.05 }}
-            >
-              <a
-                href={item.href}
-                className="text-sm text-white hover:text-[#00bfff] hover:underline hover:decoration-[#00bfff] hover:underline-offset-8 transition-all duration-300 font-bold whitespace-nowrap"
+          {navLinks.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <motion.div
+                key={item.name}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                whileHover={{ scale: 1.05 }}
               >
-                {item.name}
-              </a>
-            </motion.div>
-          ))}
+                <a
+                  href={item.href}
+                  className={`text-sm hover:text-[#00bfff] hover:underline hover:decoration-[#00bfff] hover:underline-offset-8 transition-all duration-300 font-bold whitespace-nowrap ${
+                    isActive
+                      ? "text-[#00bfff] underline decoration-[#00bfff] underline-offset-8"
+                      : "text-white"
+                  }`}
+                >
+                  {item.name}
+                </a>
+              </motion.div>
+            );
+          })}
         </nav>
 
-        {/* Desktop CTA Button */}
         <motion.div
           className="hidden xl:block"
           initial={{ opacity: 0, x: 20 }}
@@ -79,7 +87,6 @@ const Navbar = () => {
           </a>
         </motion.div>
 
-        {/* Mobile Menu Button */}
         <motion.button
           className="xl:hidden flex items-center justify-center w-8 h-8 rounded-full"
           onClick={toggleMenu}
@@ -89,7 +96,6 @@ const Navbar = () => {
         </motion.button>
       </div>
 
-      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -110,23 +116,30 @@ const Navbar = () => {
               <X className="h-6 w-6 text-gray-900" />
             </motion.button>
             <div className="flex flex-col items-center space-y-4">
-              {navLinks.map((item, i) => (
-                <motion.div
-                  key={item.name}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.05 + 0.1 }}
-                  exit={{ opacity: 0, x: 20 }}
-                >
-                  <a
-                    href={item.href}
-                    className="text-base text-gray-900 font-bold hover:text-[#00bfff] hover:underline hover:decoration-[#00bfff] hover:underline-offset-8 transition-all duration-300"
-                    onClick={toggleMenu}
+              {navLinks.map((item, i) => {
+                const isActive = pathname === item.href;
+                return (
+                  <motion.div
+                    key={item.name}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.05 + 0.1 }}
+                    exit={{ opacity: 0, x: 20 }}
                   >
-                    {item.name}
-                  </a>
-                </motion.div>
-              ))}
+                    <a
+                      href={item.href}
+                      className={`text-base font-bold hover:text-[#00bfff] hover:underline hover:decoration-[#00bfff] hover:underline-offset-8 transition-all duration-300 ${
+                        isActive
+                          ? "text-[#00bfff] underline decoration-[#00bfff] underline-offset-8"
+                          : "text-gray-900"
+                      }`}
+                      onClick={toggleMenu}
+                    >
+                      {item.name}
+                    </a>
+                  </motion.div>
+                );
+              })}
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
