@@ -10,7 +10,7 @@ const Navbar = () => {
   const navLinks = [
     { name: "ABOUT", href: "/about" },
     { name: "EVENTS", href: "/events" },
-    { name: "GUEST LECTURES", href: "/guest-lecture" },
+    { name: "GUEST LECTURES", href: "/guest-lectures" },
     { name: "GALLERY", href: "/gallery" },
     { name: "SCHEDULE", href: "/schedule" },
     { name: "SPONSORS", href: "/sponsors" },
@@ -20,7 +20,7 @@ const Navbar = () => {
 
   return (
     <div className="flex justify-center w-full py-6 px-4">
-      <div className="flex items-center justify-between px-6 py-3 bg-black border-light-50  border-2 shadow-blue-500/40 shadow-xl rounded-full  w-full max-w-[1400px] relative z-10">
+      <div className="flex items-center justify-between px-6 py-3 bg-black border-light-50 border-2 shadow-[0_0_10px_4px_rgba(59,130,246,0.70)] rounded-full w-full max-w-[1400px] relative z-10">
         <div className="flex items-center">
           <motion.div
             className="flex items-center mr-6"
@@ -56,7 +56,7 @@ const Navbar = () => {
             >
               <a
                 href={item.href}
-                className="text-sm text-gray-900 hover:text-gray-600 transition-colors font-bold whitespace-nowrap"
+                className="text-sm text-white hover:text-[#00bfff] hover:underline hover:decoration-[#00bfff] hover:underline-offset-8 transition-all duration-300 font-bold whitespace-nowrap"
               >
                 {item.name}
               </a>
@@ -70,11 +70,10 @@ const Navbar = () => {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.3, delay: 0.2 }}
-          whileHover={{ scale: 1.05 }}
         >
           <a
             href="/register"
-            className="inline-flex items-center justify-center px-6 py-2 text-sm font-bold text-white bg-black rounded-full hover:bg-gray-800 transition-colors whitespace-nowrap"
+            className="inline-flex items-center justify-center px-6 py-2 text-sm font-bold text-white hover:border-light-100 hover:text-black border-cyan-500 border-2 bg-black rounded-full hover:bg-cyan-500 animate-ease-linear  backdrop-blur-sm transition-all duration-300 whitespace-nowrap"
           >
             REGISTER
           </a>
@@ -82,7 +81,7 @@ const Navbar = () => {
 
         {/* Mobile Menu Button */}
         <motion.button
-          className="xl:hidden flex items-center"
+          className="xl:hidden flex items-center justify-center w-8 h-8 rounded-full"
           onClick={toggleMenu}
           whileTap={{ scale: 0.9 }}
         >
@@ -110,7 +109,7 @@ const Navbar = () => {
             >
               <X className="h-6 w-6 text-gray-900" />
             </motion.button>
-            <div className="flex flex-col space-y-4">
+            <div className="flex flex-col items-center space-y-4">
               {navLinks.map((item, i) => (
                 <motion.div
                   key={item.name}
@@ -121,7 +120,7 @@ const Navbar = () => {
                 >
                   <a
                     href={item.href}
-                    className="text-base text-gray-900 font-bold"
+                    className="text-base text-gray-900 font-bold hover:text-[#00bfff] hover:underline hover:decoration-[#00bfff] hover:underline-offset-8 transition-all duration-300"
                     onClick={toggleMenu}
                   >
                     {item.name}
@@ -148,7 +147,7 @@ const Navbar = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </div >
   );
 };
 
