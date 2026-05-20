@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { Compass, UserPlus } from "lucide-react";
@@ -12,6 +13,7 @@ export default function ThreeDLandingPage() {
   const headBoneRef = useRef<THREE.Object3D | null>(null);
   const mixerRef = useRef<THREE.AnimationMixer | null>(null);
   const [modelLoaded, setModelLoaded] = useState(false);
+  const [isTurbo, setIsTurbo] = useState(false);
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -37,6 +39,17 @@ export default function ThreeDLandingPage() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
 
+    // OrbitControls setup for interactive mouse rotation/zoom
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.minDistance = 3;
+    controls.maxDistance = 15;
+    // Limit polar angle so they don't look from below or too high up
+    controls.minPolarAngle = Math.PI / 6;
+    controls.maxPolarAngle = Math.PI / 2 + 0.15;
+    controls.target.set(0, -0.2, 0);
+
     // Ambient Lighting to illuminate the model evenly
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
     scene.add(ambientLight);
@@ -51,6 +64,14 @@ export default function ThreeDLandingPage() {
     backLight.position.set(-5, 5, -5);
     scene.add(backLight);
 
+    // Raycaster for hover/click interaction
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2(0, 0);
+    const targetRotation = new THREE.Vector2(0, 0);
+    let modelObj: THREE.Group | null = null;
+    let currentAction: THREE.AnimationAction | null = null;
+    let turboTimeout: NodeJS.Timeout | null = null;
+
     // Model Loading & Skeletal Traverse
     const gltfLoader = new GLTFLoader();
     let animationFrameId: number;
@@ -60,6 +81,7 @@ export default function ThreeDLandingPage() {
       "/assest/dancing_stormtrooper.glb",
       (gltf) => {
         const model = gltf.scene;
+        modelObj = model;
 
         // Position and scale adjusted perfectly so footwork isn't cut off on screen
         model.position.set(0, -2.5, 0);
@@ -72,8 +94,8 @@ export default function ThreeDLandingPage() {
 
         // Play the 0th dancing animation track
         if (gltf.animations.length > 0) {
-          const action = mixer.clipAction(gltf.animations[0]);
-          action.play();
+          currentAction = mixer.clipAction(gltf.animations[0]);
+          currentAction.play();
         }
 
         // Traverse skeletal bones to find the head or neck for mouse tracking
@@ -93,17 +115,51 @@ export default function ThreeDLandingPage() {
       (error) => console.error("Error loading 3D model:", error)
     );
 
-    // Mouse Tracking Logic
-    const mouse = new THREE.Vector2(0, 0);
-    const targetRotation = new THREE.Vector2(0, 0);
-
+    // Mouse Tracking & Hover Raycaster Logic
     const handleMouseMove = (event: MouseEvent) => {
       // Normalize mouse coordinates from -1 to +1
       mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+      // Update cursor style on hover over character
+      if (modelObj) {
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObject(modelObj, true);
+        if (intersects.length > 0) {
+          document.body.style.cursor = "pointer";
+        } else {
+          document.body.style.cursor = "default";
+        }
+      }
+    };
+
+    // Click handler for Turbo Speed reaction
+    const handleCanvasClick = (event: MouseEvent) => {
+      if (!modelObj) return;
+
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObject(modelObj, true);
+
+      if (intersects.length > 0) {
+        if (currentAction) {
+          // Double speed!
+          currentAction.timeScale = 2.5;
+          setIsTurbo(true);
+
+          if (turboTimeout) clearTimeout(turboTimeout);
+
+          turboTimeout = setTimeout(() => {
+            if (currentAction) {
+              currentAction.timeScale = 1.0;
+            }
+            setIsTurbo(false);
+          }, 1500);
+        }
+      }
     };
 
     window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("click", handleCanvasClick);
 
     // Linear interpolation helper for seamless bone movements
     const lerp = (start: number, end: number, factor: number) =>
@@ -149,6 +205,9 @@ export default function ThreeDLandingPage() {
         );
       }
 
+      // Update OrbitControls
+      controls.update();
+
       renderer.render(scene, camera);
     };
 
@@ -157,9 +216,13 @@ export default function ThreeDLandingPage() {
     // Cleanup WebGL contexts and observers
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("click", handleCanvasClick);
       window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(animationFrameId);
+      controls.dispose();
       renderer.dispose();
+      document.body.style.cursor = "default";
+      if (turboTimeout) clearTimeout(turboTimeout);
     };
   }, []);
 
@@ -261,6 +324,21 @@ export default function ThreeDLandingPage() {
         </motion.div>
 
       </div>
+
+      {/* Interactive mouse control tooltip/badge */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.6 }}
+        className="absolute bottom-6 md:bottom-10 bg-black/45 border border-white/10 backdrop-blur-md px-5 py-2.5 rounded-full text-[10px] md:text-xs font-mono tracking-widest text-cyan-400 shadow-[0_0_15px_rgba(0,191,255,0.1)] pointer-events-none flex items-center gap-2.5 z-20"
+      >
+        <span className="inline-block w-2 h-2 bg-cyan-400 rounded-full animate-ping" />
+        {isTurbo ? (
+          <span className="text-pink-400 font-bold animate-bounce">⚡ DANCE HYPERDRIVE INITIATED! ⚡</span>
+        ) : (
+          <span>🖱️ DRAG TO ROTATE | SCROLL TO ZOOM | CLICK CHARACTER TO BOOST DANCE</span>
+        )}
+      </motion.div>
 
       {/* Subtle loader display while model files initialize */}
       {!modelLoaded && (
